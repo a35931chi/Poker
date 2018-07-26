@@ -23,11 +23,11 @@ class Deck:
     def __init__(self):
         self.cards = []
         self.cards = [Card(suit, rank) for suit in SUITS() for rank in RANKS()]
-        self.order = [(card.rank, card.suit) for card in self.cards]
+        self.order = [str(card.rank) + ' of ' + str(card.suit) for card in self.cards]
 
     def shuffle(self):
         random.shuffle(self.cards)
-        self.order = [(card.rank, card.suit) for card in self.cards]
+        self.order = [str(card.rank) + ' of ' + str(card.suit) for card in self.cards]
 
     def deal(self):
         if len(self.cards) == 0:
@@ -35,20 +35,20 @@ class Deck:
             pass
         else:
             card = self.cards.pop()
-            self.order = [(card.rank, card.suit) for card in self.cards]
+            self.order = [str(card.rank) + ' of ' + str(card.suit) for card in self.cards]
             return card
 
 
-def test_shuffle(shuffle_times = 10000):
+def test_shuffle(somedeck, shuffle_times = 10000):
     #test the shuffle function. if shuffled a thousand times, let's look at what position each card would get
-    mydeck = Deck()
-    unshuffled_order = mydeck.order
+    
+    unshuffled_order = somedeck.order
 
 
     orders = []
     for _ in range(shuffle_times):
-        mydeck.shuffle()
-        orders.append([mydeck.order.index(card) for card in unshuffled_order])
+        somedeck.shuffle()
+        orders.append([somedeck.order.index(card) for card in unshuffled_order])
 
     df_orders = pd.DataFrame(orders, columns = unshuffled_order)
     return df_orders
