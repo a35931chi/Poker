@@ -32,10 +32,10 @@ def Test_Game(game_type, num_players):
     for key in players.keys():
         print('Player {} with: '.format(key))
         for card in players[key]:
-            print(card)
+            print(card.rank, card.suit)
     #I wanna see what's left with the dealer
-    print(len(mydeck.order))
-    print(mydeck.order)
+    print(len(mydeck.cards))
+    print(mydeck.show())
 
     #It will also be interesting to see if cards are dealt per rule
 
