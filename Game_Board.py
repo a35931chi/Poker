@@ -7,7 +7,7 @@ from Basics import Deck, Card
 def Test_Game(game_type, num_players):
     #initialize the number of players
     #players will be a dictionary
-    players = dict()
+    players_hands = dict()
 
     #initialize a deck, then shuffle the deck
     mydeck = Deck()
@@ -22,23 +22,29 @@ def Test_Game(game_type, num_players):
         #for holdem, each player is dealt 2 cards
         for i in range(num_players):
             hands = [mydeck.deal() for _ in range(2)]
-            players[i] = hands
+            players_hands[i] = hands
 
     #now for the community cards
     hands = [mydeck.deal() for _ in range(5)] 
-    players['comm'] = hands
+    comm = hands
     
     #I wanna see the cards that are being dealt
-    for key in players.keys():
-        print('Player {} with: '.format(key))
-        for card in players[key]:
+    show = False
+    if show:
+        for key in players_hands.keys():
+            print('Player {} with: '.format(key))
+            for card in players_hands[key]:
+                print(card.rank, card.suit)
+        print('On the Board: ')
+        for card in comm:
             print(card.rank, card.suit)
-    #I wanna see what's left with the dealer
-    print(len(mydeck.cards))
-    print(mydeck.show())
+        #I wanna see what's left with the dealer
+        print(len(mydeck.cards))
+        print(mydeck.show())
 
-    #It will also be interesting to see if cards are dealt per rule
+    #It will also be interesting to see if cards are dealt per rule have a different winning percentage
 
+    return players_hands, comm
 
 if __name__ == '__main__':
     Test_Game('HOLDEM', 3)
