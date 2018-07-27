@@ -211,16 +211,16 @@ if __name__ == '__main__':
     
     Testing_evaluate_5cards = False
     #poker hands probabilities:
-    #royal flush: 0.000154%
-    #straight flush: 0.00139%
-    #four of a kind: 0.0240% 
-    #full house: 0.1441% 
-    #flush: 0.1965%
-    #straight: 0.3925%
-    #three of a kind: 2.1128%
-    #two pair: 4.7539%
-    #one pair: 42.2569%
-    #high card: 50.1177% 
+    #royal flush: 0.000154%, 'Royal flush': 0.0001%
+    #straight flush: 0.00139%, 'Straight flush': 0.0011%
+    #four of a kind: 0.0240%, '4 of a Kind': 0.0230%
+    #full house: 0.1441%, 'Full House': 0.1347%
+    #flush: 0.1965%, 'Flush': 0.1998%
+    #straight: 0.3925%, 'Straight': 0.3976%
+    #three of a kind: 2.1128%, '3 of a Kind': 2.1141%
+    #two pair: 4.7539%, '2 Pairs': 4.7731%
+    #one pair: 42.2569%, '1 Pair': 42.2529%
+    #high card: 50.1177%, 'High': 50.1036%
     
     Testing_common_occur = True
     
