@@ -2,6 +2,9 @@ import itertools
 from collections import Counter
 from Basics import Deck
 from Game_Board import Test_Game
+import pandas as pd
+import numpy as np
+from time import time
 
 def get_ranks(cards):
     """
@@ -300,7 +303,37 @@ if __name__ == '__main__':
         best_hand(evaluation)
 
     if Test_1000000_hands_sim:
-        for _ in range(10):
+        print('starting time: {}'.format(time()))
+        t0 = time()
+        winning_df = pd.DataFrame()
+    
+        for i in range(1000000):
+            winner_data = []
+
+            participants = 10
+
             
+            game_info = []
+            whole_cards, comm = Test_Game('HOLDEM', participants)
+     
+            comm_cards = [card.rank[1] + card.suit[1] for card in comm]
+            
+            for player in whole_cards:
+                player_cards = [card.rank[1] + card.suit[1] for card in whole_cards[player]]
 
+                game_info.append([player, player_cards, comm_cards])
+                                     
+                
+            game_info_df = pd.DataFrame(game_info, columns = ['player', 'whole', 'comm'])
+            game_info_df['combined'] = game_info_df['whole'] + game_info_df['comm']
+            game_info_df['mess'] = game_info_df['combined'].apply(evaluate_7cards)
+            game_info_df['best hand'] = game_info_df['mess'].apply(lambda x:x[0][0])
+            game_info_df['eval'] = game_info_df['mess'].apply(lambda x:x[0][1])
+            best = best_hand(list(game_info_df['mess'].apply(lambda x:x[0])))
 
+            winner = game_info_df[game_info_df['eval'] == best[0][1]][['player', 'whole', 'comm', 'best hand', 'eval']]
+            winner['round'] = i
+            winning_df = winning_df.append(winner)
+              
+        print('took {} seconds'.format(time() - t0))
+        print(winning_df.head())

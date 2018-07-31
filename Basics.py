@@ -4,26 +4,23 @@ import matplotlib.pyplot
 import pandas as pd
 import numpy as np
 
-def RANKS():
-    return [('Ace', '14'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), ('7', '7'),
-            ('8', '8'), ('9', '9'), ('10', '10'), ('Jack', '11'), ('Queen', '12'), ('King', '13')]
-
-def SUITS():
-    return [('Clubs', 'C'), ('Diamonds', 'D'), ('Hearts', 'H'), ('Spades', 'S')]
-
 class Card:
-    def __init__(self, suit, rank):
-        self.rank = rank
-        self.suit = suit
+    def __init__(self, ranksuit):
+        self.ranksuit = ranksuit
 
+    '''
     def __str__(self):
-        return self.rank[0] + " of " + self.suit[0]
+        return self.rank + ' of ' +self.suit
+        #return self.rank[0] + " of " + self.suit[0]
+    '''
 
 
 class Deck:
     def __init__(self):
         self.cards = []
-        self.cards = [Card(suit, rank) for suit in SUITS() for rank in RANKS()]
+        self.all_ranks = ['14', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13']
+        self.all_suits = ['C', 'D', 'H', 'S']
+        self.cards = [rank+suit for suit in self.all_suits for rank in self.all_ranks]
 
     def show(self):
         return [str(card.rank[0]) + ' of ' + str(card.suit[0]) for card in self.cards]
