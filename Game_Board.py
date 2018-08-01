@@ -237,7 +237,4 @@ def Test_Game(game_type, num_players):
 if __name__ == '__main__':
     game_info = []
     whole_cards, comm = Test_Game('HOLDEM', 3)
-    for player in whole_cards:
-        player_cards = whole_cards[player]
 
-        game_info.append([player, player_cards, comm])
