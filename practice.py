@@ -7,8 +7,9 @@ from time import time
 import itertools
 import pickle
 import os.path
+from collections import Counter
 
-def evaulate_hand(board, whole):
+def contains(some_tuple, availhand):
     #this function takes in account of what's dealt, namely what's on the board, and what's whole
     #and determine what's possible, and how many outs there are to those
     #returns a dictionary of possible hands, and the out cards
@@ -17,9 +18,15 @@ def evaulate_hand(board, whole):
     #is royal flush possible
     #is straight flush possible
     #is four of a kind possible
-    pass
 
-    
+    #1. count the number of blanks
+    blank_counts = 5 - len(availhand)
+    cards_needed = list(set(some_tuple) - set(availhand))
+
+    if len(cards_needed) > blank_counts:
+        return False
+    else:
+        return cards_needed
 
 
 # Store my data
@@ -49,3 +56,22 @@ else:
         pickle.dump(df, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
+#temp = df.copy()
+#availhand = ['14C', '13C', '', '', '']
+#temp['outs'] = temp.apply(lambda x: contains(x['all_possible_5cards'], availhand), axis = 1)
+
+mydeck = Deck()
+mydeck.shuffle()
+#1. when whole cards are dealt
+my_whole = [mydeck.deal() for _ in range(2) ]
+#1a. evaluate for best possible hands, should return all the cards needed to improve the hand, display best possible hand
+temp = df.copy()
+temp['outs'] = temp.apply(lambda x: contains(x['all_possible_5cards'], my_whole), axis = 1)
+temp = temp[temp['outs'] != False]
+
+#2. add flop (3 cards)
+#2a. evaluate for best possible hands, should return all the cards needed to improve
+#3. add turn (1 card)
+#3a. evaluate for best possible hands, should return all the cards needed to improve
+#4. add river (1 card)
+#4a. evaluate for best possible hands, should return all the cards needed to improve

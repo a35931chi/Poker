@@ -216,7 +216,7 @@ if __name__ == '__main__':
 
     Test_best_hand = False
 
-    Test_1000000_hands_sim = True
+    Test_1000000_hands_sim = False
 
     
     if Test_evaluate_5cards:

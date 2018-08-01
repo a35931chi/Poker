@@ -19,11 +19,17 @@ class Deck:
     def __init__(self):
         self.cards = []
         self.all_ranks = ['14', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13']
-        self.all_suits = ['C', 'D', 'H', 'S']
+        self.all_suits = ['♣', '♢', '♡', '♠']
+        '''
+        U+2660 	U+2665 	U+2666 	U+2663
+        ♠ 	♥ 	♦ 	♣
+        U+2664 	U+2661 	U+2662 	U+2667
+        ♤ 	♡ 	♢ 	♧ 
+        '''
         self.cards = [rank+suit for suit in self.all_suits for rank in self.all_ranks]
 
-    def show(self):
-        return [str(card.rank[0]) + ' of ' + str(card.suit[0]) for card in self.cards]
+    def order(self):
+        return [card for card in self.cards]
 
     def shuffle(self):
         random.shuffle(self.cards)
@@ -40,16 +46,16 @@ class Deck:
 def test_shuffle(somedeck, shuffle_times = 10000):
     #test the shuffle function. if shuffled a thousand times, let's look at what position each card would get
     
-    unshuffled_order = somedeck.order
-
+    unshuffled_order = somedeck.order()
 
     orders = []
     for _ in range(shuffle_times):
         somedeck.shuffle()
-        orders.append([somedeck.order.index(card) for card in unshuffled_order])
+        orders.append([somedeck.order().index(card) for card in unshuffled_order])
 
     df_orders = pd.DataFrame(orders, columns = unshuffled_order)
     return df_orders
 
 if __name__ == '__main__':
     mydeck = Deck()
+    test_shuffle(mydeck, 10)
