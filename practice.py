@@ -35,25 +35,25 @@ file_name = 'Data/all_possible_5cards_eval.pickle'
 if os.path.isfile(file_name):
     print('Have file already.')
     with open(file_name, 'rb') as handle:
-        df = pickle.load(handle)
+        bible = pickle.load(handle)
     print('File loaded')
 else:
     print('Don\'t have necessary file, please wait...')
     somedeck = Deck()
     
     t0 = time()
-    df = pd.DataFrame()
-    df['all_possible_5cards'] = list(itertools.combinations(somedeck.cards, 5))
+    bible = pd.DataFrame()
+    bible['all_possible_5cards'] = list(itertools.combinations(somedeck.cards, 5))
     #all_possible_5cards = itertools.combinations(somedeck.cards, 5)
 
-    df['eval'] = df['all_possible_5cards'].apply(evaluate_5cards)
+    bible['eval'] = bible['all_possible_5cards'].apply(evaluate_5cards)
 
     t1 = time()
     print('took {} seconds to initialize the deck...'.format(t1 - t0))
     #dictionary size is 86101kb, took 36 seconds
     #dataframe size is 93503kb, took 32 seconds
     with open(file_name, 'wb') as handle: 
-        pickle.dump(df, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        pickle.dump(bible, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
 #temp = df.copy()
@@ -63,14 +63,17 @@ else:
 mydeck = Deck()
 mydeck.shuffle()
 #1. when whole cards are dealt
-my_whole = [mydeck.deal() for _ in range(2) ]
-#1a. evaluate for best possible hands, should return all the cards needed to improve the hand, display best possible hand
-temp = df.copy()
-temp['outs'] = temp.apply(lambda x: contains(x['all_possible_5cards'], my_whole), axis = 1)
-temp = temp[temp['outs'] != False]
+myhand = [mydeck.deal() for _ in range(2)]
+#1a. evaluate for best possible hands with past experience
 
 #2. add flop (3 cards)
+myhand += [mydeck.deal() for _ in range(3)]
 #2a. evaluate for best possible hands, should return all the cards needed to improve
+tempbible = bible.copy()
+current_eval = evaluate_5cards(myhand)
+#tempbible['outs'] = tempbible.apply(lambda x: contains(x['all_possible_5cards'], my_whole), axis = 1)
+#tempbible = tempbible[tempbible['outs'] != False]
+
 #3. add turn (1 card)
 #3a. evaluate for best possible hands, should return all the cards needed to improve
 #4. add river (1 card)
